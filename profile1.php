@@ -10,8 +10,8 @@ session_start();?>
 <?php 
 include '../header.php';
 include '../connection.php';
-$ad=$_SESSION['admin'];
-$query="SELECT * FROM admin WHERE username='$ad'";
+$ad=$_SESSION['doc'];
+$query="SELECT * FROM doctors WHERE username='$ad'";
 $res=mysqli_query($connect,$query); 
 while ($row=mysqli_fetch_array($res)) {
  	$username=$row['username'];
@@ -27,14 +27,14 @@ while ($row=mysqli_fetch_array($res)) {
 			</div>
 <!--ends--><div style="width:80%;">
 					<div style="width:50%;float:left ;">
-						<h5 class="text-center">Dr.<?php echo $username; ?>&emsp;Profile</h5>
+						<h5 class="text-center">Dr.<?php echo $username;?>&emsp;Profile</h5>
 						<?php
 						if (isset($_POST['update'])) {
 							$profile=$_FILES['profile']['name'];
 							if (empty($profile)) {
 								// code...
 							}else{
-								$query="UPDATE admin SET profile='$profile' WHERE username='$ad'";
+								$query="UPDATE doctors SET profile='$profile' WHERE username='$ad'";
 								$result=mysqli_query($connect,$query);
 								if ($result) {
 									move_uploaded_file($_FILES['profile']['tmp_name'],"img/$profile");
@@ -60,10 +60,10 @@ while ($row=mysqli_fetch_array($res)) {
 							if (empty($uname)) {
 								// code...
 							}else{
-								$query="UPDATE admin SET username='$uname' WHERE username='$ad'";
+								$query="UPDATE doctors SET username='$uname' WHERE username='$ad'";
 								$res=mysqli_query($connect,$query);
 								if ($res) {
-									$_SESSION['admin']=$uname;
+									$_SESSION['doc']=$uname;
 								}
 							}
 						}?>
@@ -85,7 +85,7 @@ $con_pass = $_POST['con_pass'];
 
 $error= array();
 
-$old = mysqli_query($connect, "SELECT * FROM admin WHERE username='$ad'");
+$old = mysqli_query($connect, "SELECT * FROM doctors WHERE username='$ad'");
 
 $row = mysqli_fetch_array($old); 
 $pass = $row['password'];
@@ -107,7 +107,7 @@ $error['p'] ="Confirm Password";
 
 	if (count($error)==0) {
 
-$query= "UPDATE admin SET password='$new_pass' WHERE username='$ad'";
+$query= "UPDATE doctors SET password='$new_pass' WHERE username='$ad'";
 
 mysqli_query($connect,$query);}}
 

@@ -4,7 +4,7 @@ session_start();?>
 <html>
 <head>
 
-	<title>Patient Dashboard</title>
+	<title>Admin Dashboard</title>
 </head>
 <body>
 <?php
@@ -18,51 +18,50 @@ include '../connection.php'; ?>
 			?>
 			</div>
 <!--ends--><div class="col-md-10">
-	<h4 class="my-2">Patient Dashboard</h4>
+	<h4 class="my-2">Admin Dashboard</h4>
 	<div class="col-md-12 my-1">
 		<div class="row">
+			<div class="box " style="height:150px; width: 250px;background-color: darkorange;"><?php
+			$vr=mysqli_query($connect,"SELECT * FROM admin");
+			$num=mysqli_num_rows($vr);?>	<h3 style="font-family:
+'Comic Sans MS';">TOTAL&emsp;&emsp;<a href="admin.php"><img src="img/adl.jpg" style="width: 50px; height: 50px;"></a><br><b>ADMIN</b></h3><h2><?php echo  $num;?></h2>
+			</div>
 			<div class="box bg-info" style="height:150px;width: 250px; margin-left: 10px;"><h3 style="font-family:
-'Comic Sans MS';">My Profile&emsp;<a href="prifile.php"><img src="img/profile.jpg" style="width: 50px; height: 50px;"></a></h3>	
-			</div>
+'Comic Sans MS';">TOTAL&emsp;&emsp;<a href="doctor.php"><img src="img/dc.jpg" style="width: 50px; height: 50px;"></a><br><b>DOCTORS</b></h3><?php
+$doc=mysqli_query($connect,"SELECT * FROM doctors WHERE status='Approved'");
+$c=mysqli_num_rows($doc);?>
+<h2><?php echo $c;?></h2>	
+			</div><?php
+			$vr=mysqli_query($connect,"SELECT * FROM patients");
+			$num2=mysqli_num_rows($vr);?>
 			<div class="box " style="height:150px;width: 250px;margin-left: 10px;background-color: hotpink;"><h3 style="font-family:
-'Comic Sans MS';">Book Appointment&emsp;&emsp;<a href="appointment.php"><img src="img/appoint.png" style="width: 50px; height: 50px;"></a>	
-			</div>&emsp;
-			<div class="box" style="height:150px;width: 250px;margin-left: 0px;margin-top: px;background-color: yellowgreen;"><h3 style="font-family:
-'Comic Sans MS';">My Invoice&emsp;&emsp;<a href="invoice.php"><img src="img/inv.jpg" style="width: 50px; height: 50px;"></a></h3>
+'Comic Sans MS';">TOTAL&emsp;&emsp;<img src="img/pt.jpg" style="width: 50px; height: 50px;"><br><b>PATIENT</b></h3><h2><?php echo  $num2;?></h2>	
+			</div>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&emsp;&emsp;
+			<div class="box" style="height:150px;width: 250px;margin-left: 0px;margin-top: 10px;background-color: yellowgreen;"><h3 style="font-family:
+'Comic Sans MS';">TOTAL&emsp;&emsp;<a href="income.php"><img src="img/in.jpg" style="width: 50px; height: 50px;"></a><br><b>INCOME</b></h3><?php
+$query = "SELECT * FROM income";
+$query_run = mysqli_query($connect,$query);
+			$sum1=0;
+			while($sum=mysqli_fetch_assoc($query_run)){
+				$sum1+=$sum['amount_paid'];
+			}
+
+		?><h2><?php echo $sum1;?></h2>	
 			</div>
-<?php 
-if (isset($_POST['send'])) {
-	// code...
-	$sub=$_POST['sub'];
-	$issue=$_POST['meg'];
-	if (empty($sub)) {
-		echo"<script>alert('no subjext')</script>";
-	}elseif(empty($issue)){echo"<script>alert('no issue')</script>";}
-	else{
-		$user=$_SESSION['patient'];
-		$query="INSERT INTO report(subject,issue,username,date_send) VALUES('$sub','$issue','$user',NOW())";
-		$res=mysqli_query($connect,$query);
-		if ($res) {
-			// code...
-			echo"<script>alert('Report has been sent')</script>";
-		}
-	}
-}
-?>
-
-			<div class="box " style="height:77%;width: 31%;  margin-left: 350px;margin-top: 50px;border: solid 3px black;background-color: lightgoldenrodyellow;">
-					<form method="post">
-						<h4 class="text-center">Send a Report</h4>
-						<div class="form-group">
-							<label>Subject</label>
-							<input type="text" name="sub" class="form-control" autocomplete="off" placeholder="My Doctor"></div>
-							<div class="form-group">
-								<label>Issue</label>
-								<input type="text" name="meg" class="form-control">
-							</div>
-							<input type="submit" name="send" value="Send" class="btn btn-success">
-
-					</form></div></div>
+			<div class="box" style="height:150px;width: 250px;margin-left: 10px;margin-top: 10px;background-color: red;">
+				<?php
+				$job=mysqli_query($connect,"SELECT * FROM doctors WHERE status='Pendding'");
+				$nm1=mysqli_num_rows($job);?>
+				<h3 style="font-family:
+'Comic Sans MS';">TOTAL&emsp;&emsp;<a href="job_request.php"><img src="img/job.jpg" style="width: 50px; height: 50px;"></a><br><b>Job Request</b></h3><h2><?php echo $nm1; ?></h2>	
+			</div>
+			<div class="box" style="height:150px;width: 250px;margin-left: 10px;margin-top: 10px;background-color:yellow;">
+				<?php
+				$job=mysqli_query($connect,"SELECT * FROM report");
+				$nm1=mysqli_num_rows($job);?>
+				<h3 style="font-family:
+'Comic Sans MS';">TOTAL&emsp;&emsp;<a href="report.php"><img src="img/job.jpg" style="width: 50px; height: 50px;"></a><br><b>Reports</b></h3><h2><?php echo $nm1; ?></h2>	
+			</div>
 
 	</div>
 </div></div>
